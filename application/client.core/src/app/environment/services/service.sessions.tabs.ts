@@ -15,6 +15,7 @@ import PluginsService from './service.plugins';
 import PopupsService from './standalone/service.popups';
 import OutputRedirectionsService from './standalone/service.output.redirections';
 import LayoutStateService from './standalone/service.layout.state';
+import { INotification } from '../../../../../common/ipc/electron.ipc.messages';
 
 import * as Toolkit from 'chipmunk.client.toolkit';
 
