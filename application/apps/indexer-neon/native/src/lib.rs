@@ -9,9 +9,11 @@ extern crate log4rs;
 extern crate merging;
 extern crate processor;
 extern crate serde;
+extern crate adb;
 
 mod channels;
 mod concatenator_channel;
+mod adb_indexer_channel;
 mod dlt_export_channel;
 mod dlt_indexer_channel;
 mod dlt_pcap_channel;
@@ -30,6 +32,7 @@ use dlt_socket_channel::JsDltSocketEventEmitter;
 
 use dlt_export_channel::JsDltExporterEventEmitter;
 use dlt_stats_channel::JsDltStatsEventEmitter;
+use adb_indexer_channel::*;
 use indexer_base::progress::{IndexingProgress, IndexingResults, Notification, Severity};
 use indexer_channel::JsIndexerEventEmitter;
 use log::LevelFilter;
@@ -172,6 +175,7 @@ register_module!(mut cx, {
     )?;
     cx.export_class::<JsIndexerEventEmitter>("RustIndexerEventEmitter")?;
     cx.export_class::<JsDltIndexerEventEmitter>("RustDltIndexerEventEmitter")?;
+    cx.export_class::<JsAdbIndexerEventEmitter>("RustAdbIndexerEventEmitter")?;
     cx.export_class::<JsDltPcapEventEmitter>("RustDltPcapEventEmitter")?;
     cx.export_class::<JsDltStatsEventEmitter>("RustDltStatsEventEmitter")?;
     cx.export_class::<JsDltSocketEventEmitter>("RustDltSocketEventEmitter")?;

@@ -12,6 +12,7 @@
     "build:file": "./node_modules/.bin/ng build file",
     "build:dlt": "./node_modules/.bin/ng build dlt",
     "build:dlt-render": "./node_modules/.bin/ng build dlt-render",
+    "build:adb": "./node_modules/.bin/ng build adb",
     "test": "./node_modules/.bin/ng test",
     "lint": "./node_modules/.bin/ng lint",
     "e2e": "./node_modules/.bin/ng e2e"

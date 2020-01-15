@@ -59,6 +59,12 @@
       ],
       "serial/*": [
         "dist/serial/*"
+      ],
+      "adb": [
+        "dist/adb"
+      ],
+      "adb/*": [
+        "dist/adb/*"
       ]
     }
   }

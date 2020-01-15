@@ -1,0 +1,1 @@
+/// <reference path="adbkit/index.d.ts" />

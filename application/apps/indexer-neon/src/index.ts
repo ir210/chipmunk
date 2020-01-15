@@ -2,6 +2,7 @@ import { CancelablePromise } from './promise';
 import * as Processor from './processor';
 import * as Progress from './progress';
 import * as DLT from './dlt';
+import * as ADB from './adb';
 import * as Merge from './merger';
 import * as Units from './units';
 
@@ -14,6 +15,8 @@ export default {
     indexDltAsync               : DLT.indexDltAsync,
     dltOverSocket               : DLT.dltOverSocket,
     indexPcapDlt                : DLT.indexPcapDlt,
+    // ADB
+    indexAdbAsync               : ADB.indexAdbAsync,
     // Indexing
     indexAsync                  : Processor.indexAsync,
     detectTimestampInString     : Processor.detectTimestampInString,

@@ -18,6 +18,7 @@ import LayoutStateService from './standalone/service.layout.state';
 
 import * as Toolkit from 'chipmunk.client.toolkit';
 
+import { INotification } from '../../../../../common/ipc/electron.ipc.messages';
 export { ControllerSessionTabSearch } from '../controller/controller.session.tab.search';
 
 export type TSessionGuid = string;
@@ -113,7 +114,7 @@ export class TabsSessionsService implements IService {
             const tabTitleContentService: TabTitleContentService = new TabTitleContentService(guid);
             const session = new ControllerSessionTab({
                 guid: guid,
-                transports: [ 'processes', 'serial', 'dlt-render' ],
+                transports: ['processes', 'serial', 'dlt-render', 'adb'],
                 sessionsEventsHub: this._sessionsEventsHub,
                 tabTitleContentService: tabTitleContentService,
             });

@@ -308,6 +308,41 @@
           }
         }
       }
+    },
+    "adb": {
+      "root": "projects/adb",
+      "sourceRoot": "projects/adb/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/adb/tsconfig.lib.json",
+            "project": "projects/adb/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/adb/src/test.ts",
+            "tsConfig": "projects/adb/tsconfig.spec.json",
+            "karmaConfig": "projects/adb/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/adb/tsconfig.lib.json",
+              "projects/adb/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "pluginB"

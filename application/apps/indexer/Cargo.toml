@@ -6,4 +6,5 @@ members = [
     "processor",
     "indexer_base",
     "merging",
+    "adb",
 ]

@@ -42,6 +42,7 @@ COMPLEX_PLUGINS = %w[
   serial
   processes
   xterminal
+  adb
 ].freeze
 ANGULAR_PLUGINS = ['dlt-render'].freeze
 STANDALONE_PLUGINS = ['row.parser.ascii'].freeze
@@ -471,6 +472,10 @@ namespace :dev do
     install_plugin_angular('xterminal')
   end
 
+  task :adb_render do
+    install_plugin_angular('adb')
+  end
+
   desc 'Developer task: update and delivery indexer-neon'
   task neon: %i[build_embedded_indexer delivery_embedded_into_local_runtime]
 
@@ -722,6 +727,10 @@ task :updatepluginipc do
     puts 'Update toolkits for: xterminal plugin'
     sh 'npm uninstall chipmunk.plugin.ipc'
     npm_install('chipmunk.plugin.ipc@latest')
+  end
+  cd "#{PLUGINS_SANDBOX}/adb/process" do
+    puts 'Update toolkits for: adb plugin'
+    npm_reinstall('chipmunk.plugin.ipc@latest')
   end
 end
 

@@ -1,6 +1,7 @@
 const {
     RustIndexerEventEmitter: RustIndexerChannel,
     RustDltIndexerEventEmitter: RustDltIndexerChannel,
+    RustAdbIndexerEventEmitter: RustAdbIndexerChannel,
     RustDltStatsEventEmitter: RustDltStatsChannel,
     RustDltExporterEventEmitter: RustDltSaveFileChannel,
     RustDltSocketEventEmitter: RustDltSocketChannel,
@@ -14,6 +15,7 @@ export {
     EventEmitter,
     RustIndexerChannel,
     RustDltIndexerChannel,
+    RustAdbIndexerChannel,
     RustDltStatsChannel,
     RustDltSaveFileChannel,
     RustDltSocketChannel,
