@@ -34,128 +34,128 @@ class ServiceSessions {
     }
 
     private _onIncomeRenderIPCMessage(message: IPCMessages.PluginInternalMessage, response: (res: IPCMessages.TMessage) => any) {
-        if (message.token !== undefined) {
-            ServiceDevices.setToken(message.token);
-        }
-        
-        switch (message.data.command) {
-            case ECommands.open:
-                return this._income_onOpen(message).then(() => {
-                    response(new IPCMessages.PluginInternalMessage({
-                        data: {
-                            status: 'done'
-                        },
-                        token: message.token,
-                        stream: message.stream,
-                    }));
-                }).catch((error: Error) => {
-                    response(new IPCMessages.PluginError({
-                        message: error.message,
-                        stream: message.stream,
-                        token: message.token,
-                        data: {
-                            command: message.data.command,
-                        }
-                    }));
-                });
-            case ECommands.close:
-                return this._income_onClose(message).then(() => {
-                    response(new IPCMessages.PluginInternalMessage({
-                        data: {
-                            status: 'done',
-                        },
-                        token: message.token,
-                        stream: message.stream,
-                    }));
-                }).catch((error: Error) => {
-                    return response(new IPCMessages.PluginError({
-                        message: error.message,
-                        stream: message.stream,
-                        token: message.token,
-                        data: {
-                            command: message.data.command,
-                        },
-                    }));
-                });
-            case ECommands.list:
-                return this._income_onList(message).then((devices: IDeviceInfo[]) => {
-                    response(new IPCMessages.PluginInternalMessage({
-                        data: {
-                            status: 'done',
-                            devices: devices,
-                        },
-                        token: message.token,
-                        stream: message.stream,
-                    }));
-                }).catch((error: Error) => {
-                    return response(new IPCMessages.PluginError({
-                        message: error.message,
-                        stream: message.stream,
-                        token: message.token,
-                        data: {
-                            command: message.data.command
-                        }
-                    }));
-                });
-            case ECommands.write:
-                return this._income_onWrite(message).then(() => {
-                    response(new IPCMessages.PluginInternalMessage({
-                        data: {
-                            status: 'sent',
-                        },
-                        token: message.token,
-                        stream: message.stream,
-                    }));
-                }).catch((error: Error) => {
-                    return response(new IPCMessages.PluginError({
-                        message: error.message,
-                        stream: message.stream,
-                        token: message.token,
-                        data: {
-                            command: message.data.command,
-                        },
-                    }));
-                });
-            case ECommands.spyStart:
-                return this._income_onSpyStart(message).then(() => {
-                    response(new IPCMessages.PluginInternalMessage({
-                        data: {
-                            status: 'done',
-                        },
-                        token: message.token,
-                        stream: message.stream,
-                    }));
-                }).catch((error: Error) => {
-                    response(new IPCMessages.PluginError({
-                        message: error.message,
-                        stream: message.stream,
-                        token: message.token,
-                        data: {
-                            command: message.data.command,
-                        },
-                    }));
-                }); 
-            case ECommands.spyStop:
-                return this._income_onSpyStop(message).then(() => {
-                    response(new IPCMessages.PluginInternalMessage({
-                        data: {
-                            status: 'done',
-                        },
-                        token: message.token,
-                        stream: message.stream,
-                    }));
-                }).catch((error: Error) => {
-                    response(new IPCMessages.PluginError({
-                        message: error.message,
-                        stream: message.stream,
-                        token: message.token,
-                        data: {
-                            command: message.data.command,
-                        },
-                    }));
-                });
-            default:
-                this._logger.warn(`Unknown command: ${message.data.command}`);
+      if (message.token !== undefined) {
+          ServiceDevices.setToken(message.token);
+      }
+
+      switch (message.data.command) {
+          case ECommands.open:
+            return this._income_onOpen(message).then(() => {
+              response(new IPCMessages.PluginInternalMessage({
+                  data: {
+                      status: 'done'
+                  },
+                  token: message.token,
+                  stream: message.stream,
+              }));
+            }).catch((error: Error) => {
+              response(new IPCMessages.PluginError({
+                  message: error.message,
+                  stream: message.stream,
+                  token: message.token,
+                  data: {
+                      command: message.data.command,
+                  }
+              }));
+            });
+          case ECommands.close:
+            return this._income_onClose(message).then(() => {
+              response(new IPCMessages.PluginInternalMessage({
+                data: {
+                  status: 'done',
+                },
+                token: message.token,
+                stream: message.stream,
+              }));
+            }).catch((error: Error) => {
+                return response(new IPCMessages.PluginError({
+                  message: error.message,
+                  stream: message.stream,
+                  token: message.token,
+                  data: {
+                    command: message.data.command,
+                  },
+                }));
+            });
+          case ECommands.list:
+              return this._income_onList(message).then((devices: IDeviceInfo[]) => {
+                response(new IPCMessages.PluginInternalMessage({
+                  data: {
+                    status: 'done',
+                    devices: devices,
+                  },
+                  token: message.token,
+                  stream: message.stream,
+                }));
+              }).catch((error: Error) => {
+                  return response(new IPCMessages.PluginError({
+                    message: error.message,
+                    stream: message.stream,
+                    token: message.token,
+                    data: {
+                      command: message.data.command
+                    }
+                  }));
+              });
+          case ECommands.write:
+              return this._income_onWrite(message).then(() => {
+                response(new IPCMessages.PluginInternalMessage({
+                  data: {
+                    status: 'sent',
+                  },
+                  token: message.token,
+                  stream: message.stream,
+                }));
+              }).catch((error: Error) => {
+                return response(new IPCMessages.PluginError({
+                  message: error.message,
+                  stream: message.stream,
+                  token: message.token,
+                  data: {
+                    command: message.data.command,
+                  },
+                }));
+              });
+          case ECommands.spyStart:
+              return this._income_onSpyStart(message).then(() => {
+                response(new IPCMessages.PluginInternalMessage({
+                  data: {
+                    status: 'done',
+                  },
+                  token: message.token,
+                  stream: message.stream,
+                }));
+              }).catch((error: Error) => {
+                response(new IPCMessages.PluginError({
+                  message: error.message,
+                  stream: message.stream,
+                  token: message.token,
+                  data: {
+                    command: message.data.command,
+                  },
+                }));
+              }); 
+          case ECommands.spyStop:
+              return this._income_onSpyStop(message).then(() => {
+                response(new IPCMessages.PluginInternalMessage({
+                  data: {
+                    status: 'done',
+                  },
+                  token: message.token,
+                  stream: message.stream,
+                }));
+              }).catch((error: Error) => {
+                response(new IPCMessages.PluginError({
+                  message: error.message,
+                  stream: message.stream,
+                  token: message.token,
+                  data: {
+                      command: message.data.command,
+                  },
+                }));
+              });
+          default:
+              this._logger.warn(`Unknown command: ${message.data.command}`);
         }
     }
 
@@ -204,28 +204,28 @@ class ServiceSessions {
     }
 
     private _income_onClose(message: IPCMessages.PluginInternalMessage): Promise<void> {
-        return new Promise((resolve, reject) => {
-            const streamId: string | undefined = message.stream;
-            if (streamId === undefined) {
-                return reject(new Error(this._logger.warn(`No target stream ID provided`)));
-            }
-            let controller: ControllerSession | undefined = this._sessions.get(streamId);
-            if (controller === undefined) {
-                return reject(new Error(this._logger.error(`Fail to open device, because session isn't created.`)));
-            }
-            if (typeof message.data !== 'object' || message.data === null) {
-                return reject(new Error(this._logger.error(`Parameters arn't provided`)));
-            }
-            if (typeof message.data.path !== 'string' || message.data.path.trim() === '') {
-                return reject(new Error(this._logger.error(`Cannot close device, because path isn't provided`)));
-            }
-            controller.close(message.data.path).then(() => {
-                resolve();            
-            }).catch((error: Error) => {
-                this._logger.error(`Fail to close device "${message.data.path}" due error: ${error.message}`);
-                reject(error);
-            });           
+      return new Promise((resolve, reject) => {
+        const streamId: string | undefined = message.stream;
+        if (streamId === undefined) {
+          return reject(new Error(this._logger.warn(`No target stream ID provided`)));
+        }
+        let controller: ControllerSession | undefined = this._sessions.get(streamId);
+        if (controller === undefined) {
+          return reject(new Error(this._logger.error(`Fail to open device, because session isn't created.`)));
+        }
+        if (typeof message.data !== 'object' || message.data === null) {
+          return reject(new Error(this._logger.error(`Parameters are not provided`)));
+        }
+        if (typeof message.data.device !== 'string' || message.data.device.trim() === '') {
+          return reject(new Error(this._logger.error(`Cannot close device, because device name isn't provided`)));
+        }
+        controller.close(message.data.device).then(() => {
+          resolve();
+        }).catch((error: Error) => {
+          this._logger.error(`Fail to close device "${message.data.device}" due error: ${error.message}`);
+          reject(error);
         });
+      });
     }
 
     private _income_onWrite(message: IPCMessages.PluginInternalMessage): Promise<void> {
@@ -289,31 +289,31 @@ class ServiceSessions {
     }
 
     private _income_onSpyStop(message: IPCMessages.PluginInternalMessage): Promise<void> {
-        return new Promise((resolve, reject) => {
-            const streamId: string | undefined = message.stream;
-            if (streamId === undefined) {
-                return reject(new Error(this._logger.warn(`No target stream ID provided`)));
-            }
-            if (message === undefined) {
-                return reject(new Error(this._logger.error(`Fail to send message, because it's undefined`)))
-            }
-            let controller: ControllerSession | undefined = this._sessions.get(streamId);
-            if (controller === undefined) {
-                return reject(new Error(this._logger.error(`Failed to close devices, because session isn't created.`)));
-            }
-            if (typeof message.data !== 'object' || message.data === null) {
-                return reject(new Error(this._logger.error(`Parameters arn't provided`)));
-            }
-            if (typeof message.data.options !== 'object' || message.data.options === null) {
-                return reject(new Error(this._logger.error(`Options aren't provided`)));
-            }
-            controller.spyStop(message.data.options).then(() => {
-                resolve();            
-            }).catch((error: Error) => {
-                this._logger.error(`Failed to close devices due error: ${error.message}`);
-                reject(error);
-            });
+      return new Promise((resolve, reject) => {
+        const streamId: string | undefined = message.stream;
+        if (streamId === undefined) {
+          return reject(new Error(this._logger.warn(`No target stream ID provided`)));
+        }
+        if (message === undefined) {
+          return reject(new Error(this._logger.error(`Fail to send message, because it's undefined`)))
+        }
+        let controller: ControllerSession | undefined = this._sessions.get(streamId);
+        if (controller === undefined) {
+          return reject(new Error(this._logger.error(`Failed to close devices, because session isn't created.`)));
+        }
+        if (typeof message.data !== 'object' || message.data === null) {
+          return reject(new Error(this._logger.error(`Parameters arn't provided`)));
+        }
+        if (typeof message.data.options !== 'object' || message.data.options === null) {
+          return reject(new Error(this._logger.error(`Options aren't provided`)));
+        }
+        controller.spyStop(message.data.options).then(() => {
+          resolve();
+        }).catch((error: Error) => {
+          this._logger.error(`Failed to close devices due error: ${error.message}`);
+          reject(error);
         });
+      });
     }
 
     private _onOpenStream(session: string) {

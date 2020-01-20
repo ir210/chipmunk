@@ -14,6 +14,7 @@ import { CStdoutSocketAliases } from '../../consts/controller.plugin.process';
 const CDebugPluginPorts: { [key: string]: number } = {
     serial: 9240,
     processes: 9241,
+    adb: 9242,
 };
 
 interface IConnection {

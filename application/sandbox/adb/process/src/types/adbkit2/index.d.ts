@@ -1,19 +1,21 @@
-declare module 'adbkit' {
-    export interface IClientCreationOptions {
+declare module 'adbkit2' {
+    interface IClientCreationOptions {
         host?: string,
         port?: string,
     }
 
-    export interface IDevice {
+    interface IDevice {
         id: string,
         type: string,
     }
 
-    export interface Client {
+    interface Client {
         listDevices(callback?: (err: Error, resp: any) => void): Promise<IDevice[]>;
     }
 
-    export default class Adb {
+    class Adb {
         static createClient(options: IClientCreationOptions): Client;
     }
+
+    export = Adb;
 }

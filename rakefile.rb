@@ -628,6 +628,7 @@ end
 task :sign do
   require 'dotenv/load'
   sign_plugin_binary("#{PLUGINS_SANDBOX}/serial/process")
+  sign_plugin_binary("#{PLUGINS_SANDBOX}/adb/process")
 end
 def sign_plugin_binary(plugin_path)
   return unless OS.mac?

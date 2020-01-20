@@ -103,6 +103,7 @@ export class SidebarVerticalDeviceDialogComponent implements OnInit, OnDestroy, 
         if (device) {
             this._ng_selected = device;
         }
+
         this._getSelected(this._ng_selected);
         this._onConnect();
     }

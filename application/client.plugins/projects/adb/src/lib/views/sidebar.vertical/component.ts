@@ -11,6 +11,7 @@ import { SidebarVerticalDeviceDialogComponent } from '../dialog/components'
 import { EHostEvents } from '../../common/host.events';
 import Service from '../../services/service';
 import { Subscription } from 'rxjs';
+import { ENotificationType } from 'chipmunk.client.toolkit';
 
 interface IConnected {
   device: IDeviceInfo;
@@ -63,7 +64,6 @@ export class SidebarVerticalComponent implements AfterViewInit, OnDestroy {
   public _ng_defaultDevice: string | undefined = undefined;
 
   constructor(private _cdRef: ChangeDetectorRef, private _sanitizer: DomSanitizer) {
-    console.log("CONSTRUCTOR!!!!!1");
     this._ng_sendMessage = this._ng_sendMessage.bind(this);
     this._ng_changeDropdownSelect = this._ng_changeDropdownSelect.bind(this);
     this._ng_connectDialog = this._ng_connectDialog.bind(this);
@@ -78,7 +78,6 @@ export class SidebarVerticalComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    console.log("CONSTRUCTOR!!!!!2");
     Service.popupButton(this._ng_connectDialog);
     this._restoreDropdownSession();
     this._loadSession();
@@ -222,7 +221,7 @@ export class SidebarVerticalComponent implements AfterViewInit, OnDestroy {
   }
 
   private _onIncomeEvent(message: any) {
-    switch (message.event()) {
+    switch (message.event) {
       case EHostEvents.connected:
         break;
       case EHostEvents.disconnected:
@@ -269,9 +268,8 @@ export class SidebarVerticalComponent implements AfterViewInit, OnDestroy {
 
   private _requestDeviceList() {
     this._ng_devices = [];
-    console.log("WHY????");
+
     Service.requestDevices().then((resolve) => {
-      this._logger.debug("REQUESTING DEVICE LIST");
       Object.assign(this._ng_devices, resolve.devices);
       this._saveState();
       this._forceUpdate();
@@ -427,25 +425,10 @@ export class SidebarVerticalComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  private _removeOptions() {
-    this._deviceOptions = [];
-  }
-
   private _startSpy() {
     this._createOptions();
     Service.startSpy(this._deviceOptions).catch((error: Error) => {
       this._logger.error(error);
-    });
-  }
-
-  private _stopSpy(): Promise<any> {
-    return new Promise((resolve) => {
-      Service.stopSpy(this._deviceOptions).then(
-        resolve
-      ).catch((error: Error) => {
-        this._logger.error(error);
-      });
-      this._removeOptions();
     });
   }
 
@@ -462,14 +445,25 @@ export class SidebarVerticalComponent implements AfterViewInit, OnDestroy {
   public _ng_connectDialog(recent: boolean) {
     Service.requestDevices().then((response) => {
       this._startSpy();
+      // TODO: Move this popup management into Service like the serial plugin.
       const popupGuid: string = this.api.addPopup({
         caption: 'Choose device to connect:',
         component: {
           factory: SidebarVerticalDeviceDialogComponent,
           inputs: {
             _onConnect: (() => {
-              this._stopSpy().then(() => this._ng_onConnect());
-              this._closePopup(popupGuid);
+              // TODO: The way the serial plugin does it is to have an option UI.
+              this._optionsCom = {
+                device: this._ng_selected.name,
+                options: {}
+              };
+              Service.stopSpy(this._deviceOptions).then(() => {
+                this._deviceOptions = [];
+                this._ng_onConnect();
+                this._closePopup(popupGuid);
+              }).catch((error: Error) => {
+                Service.notify('Error', error.message, ENotificationType.error);
+              });
             }),
             _ng_canBeConnected: this._ng_canBeConnected,
             _ng_connected: this._ng_connected,

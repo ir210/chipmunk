@@ -53,29 +53,30 @@ export class ControllerSession {
             if (typeof options !== 'object' || options === null) {
                 return reject(new Error(this._logger.error(`Options should be object. Gotten type: "${typeof options}"`)));
             }
-            if (typeof options.name !== 'string' || options.name.trim() === '') {
+            if (typeof options.device !== 'string' || options.device.trim() === '') {
                 return reject(new Error(this._logger.error(`Wrong "name" definition`)));
             }
-            if (this._isDeviceRefed(options.name)) {
-                return reject(new Error(this._logger.error(`Port "${options.name}" is already assigned with session "${this._session}"`)));
+            if (this._isDeviceRefed(options.device)) {
+                return reject(new Error(this._logger.error(`Device "${options.device}" is already assigned with session "${this._session}"`)));
             }
+
             ServiceDevices.refDevice(this._session, options, {
-                onData: this._onDeviceData.bind(this, options.name),
-                onError: this._onDeviceError.bind(this, options.name),
-                onDisconnect: this._onDeviceDisconnect.bind(this, options.name)
+                onData: this._onDeviceData.bind(this, options.device),
+                onError: this._onDeviceError.bind(this, options.device),
+                onDisconnect: this._onDeviceDisconnect.bind(this, options.device)
             }).then(() => {
-                this._logger.env(`Device "${options.name}" is assigned with session "${this._session}"`);
+                this._logger.env(`Device "${options.device}" is assigned with session "${this._session}"`);
                 // Save data
-                this._devices.push(options.name);
+                this._devices.push(options.device);
                 // Notify render
                 PluginIPCService.sendToPluginHost(this._session, {
                     event: ERenderEvents.connected,
                     streamId: this._session,
-                    device: options.name,
+                    device: options.device,
                 });
                 resolve();
             }).catch((openErr: Error) => {
-                reject(new Error(this._logger.error(`Fail to open device "${options.name}" due to error: ${openErr.message}`)));
+                reject(new Error(this._logger.error(`Fail to open device "${options.device}" due to error: ${openErr.message}`)));
             });
         });
     }
@@ -100,11 +101,11 @@ export class ControllerSession {
             this._readLoad = {};
             Promise.all(
                 options.map((option: IOptions) => {
-                    this._devices.push(option.name);
+                    this._devices.push(option.device);
                     return ServiceDevices.refDevice(PSEUDO_SESSION, option, {
-                        onData: this._readSpyLoad.bind(this, option.name),
-                        onError: this._onDeviceError.bind(this, option.name),
-                        onDisconnect: this._onSpyDeviceDisconnect.bind(this, option.name),
+                        onData: this._readSpyLoad.bind(this, option.device),
+                        onError: this._onDeviceError.bind(this, option.device),
+                        onDisconnect: this._onSpyDeviceDisconnect.bind(this, option.device),
                     });
                 }),
             ).then(() => {
@@ -120,13 +121,14 @@ export class ControllerSession {
         return new Promise((resolve, reject) => {
             Promise.all(
                 options.map((option: IOptions) => {
-                    if (!this._isDeviceRefed(option.name)) {
-                        return reject(new Error(this._logger.error(`Port "${option.name}" is not being spied on`)));
+                    if (!this._isDeviceRefed(option.device)) {
+                        return reject(new Error(this._logger.error(`Device "${option.device}" is not being spied on`)));
                     }
 
-                    this._removeDevice(option.name);
-                    return ServiceDevices.unrefDevice(PSEUDO_SESSION, option.name).catch((error: Error) => {
-                        this._logger.error(`Failed to unref normally port "${option.name} while spying do to error: ${error.message}`);
+                    return ServiceDevices.unrefDevice(PSEUDO_SESSION, option.device).then(() => {
+                        this._removeDevice(option.device);
+                    }).catch((error: Error) => {
+                        this._logger.error(`Failed to unref normally device "${option.device} while spying do to error: ${error.message}`);
                     });
                 })
             ).then(() => {

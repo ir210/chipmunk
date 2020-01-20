@@ -10,7 +10,8 @@
 // is strictly forbidden unless prior written permission is obtained
 // from ESR Labs.
 
-use channels::{EventEmitterTask, IndexingThreadConfig};
+use crate::channels::{EventEmitterTask, IndexingThreadConfig};
+
 use indexer_base::chunks::ChunkResults;
 use indexer_base::config::IndexingConfig;
 use neon::prelude::*;

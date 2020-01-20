@@ -1,1 +1,1 @@
-/// <reference path="adbkit/index.d.ts" />
+/// <reference path="adbkit2/index.d.ts" />

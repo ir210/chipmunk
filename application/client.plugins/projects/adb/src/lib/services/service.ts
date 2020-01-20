@@ -4,7 +4,7 @@ import { IOptions } from '../common/interface.options';
 import { Observable, Subject } from 'rxjs';
 import { IDeviceState, IDeviceSession } from '../common/interface.deviceinfo';
 import { SidebarTitleAddComponent } from '../views/dialog/titlebar/components';
-
+import { ENotificationType } from 'chipmunk.client.toolkit';
 
 export class Service extends Toolkit.APluginService {
   public state: { [device: string]: IDeviceState } = {};
@@ -25,13 +25,11 @@ export class Service extends Toolkit.APluginService {
 
   constructor() {
     super();
-    console.log("THIS 4");
     this._subscriptions.onAPIReady = this.onAPIReady.subscribe(this._onAPIReady.bind(this));
   }
 
   private _onAPIReady() {
     this.api = this.getAPI();
-    console.log("THIS 3");
     if (this.api === undefined) {
       this._logger.error('API not found!');
       return;
@@ -43,7 +41,6 @@ export class Service extends Toolkit.APluginService {
   }
 
   private _onSessionOpen() {
-    console.log("THIS 2");
     this.session = this.api.getActiveSessionId();
     if (this.sessions.includes(this.session)) {
       return;
@@ -70,8 +67,6 @@ export class Service extends Toolkit.APluginService {
   }
 
   public incomeMessage() {
-    this._logger.debug("THIS 1");
-    console.debug("THIS 1");
     this._subscriptions.incomeIPCHostMessage = this.api.getIPC().subscribeToHost((message: any) => {
       if (typeof message !== 'object' && message === null) {
         return;
@@ -223,6 +218,28 @@ export class Service extends Toolkit.APluginService {
 
   public closePopup(popup: string) {
     this.api.removePopup(popup);
+  }
+
+  public notify(caption: string, message: string, type: ENotificationType) {
+    if (this.api) {
+      this.api.addNotification({
+        caption: caption,
+        message: message,
+        options: {
+          type: type,
+        }
+      });
+    } else {
+      this._logger.error('API not found!');
+    }
+
+    if (type === ENotificationType.error) {
+      this._logger.error(message);
+    } else if (type === ENotificationType.warning) {
+      this._logger.warn(message);
+    } else {
+      this._logger.info(message);
+    }
   }
 }
 
