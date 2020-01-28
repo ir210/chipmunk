@@ -130,7 +130,7 @@ export class ControllerAdbDevice extends EventEmitter {
     private _getOptionsErrors(options: IOptions): Error | undefined {
         const errors: string[] = [];
         if (typeof options.device !== 'string' || options.device.trim() === '') {
-            errors.push(`ADB device name shoudl be defined as string. Got type: "${typeof options.device}`);
+            errors.push(`ADB device name should be defined as string. Got type: "${typeof options.device}`);
         }
 
         return errors.length > 0 ? new Error(errors.join('\n\t- ')) : undefined;

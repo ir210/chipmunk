@@ -71,8 +71,8 @@ export class ServicePlugins implements IService {
         return new Promise((resolve, reject) => {
             // Create controllers
             this._controllerInstalled = new ControllerPluginInstalled();
-            this._controllerDefaults = new ControllerPluginDefaults();
-            // Subscribe to render events
+             this._controllerDefaults = new ControllerPluginDefaults();
+           // Subscribe to render events
             this._subscribeIPCMessages();
             // Get electron version
             const version = ServiceElectron.getVersion();

@@ -56,9 +56,11 @@ export class ControllerSession {
             if (typeof options.device !== 'string' || options.device.trim() === '') {
                 return reject(new Error(this._logger.error(`Wrong "name" definition`)));
             }
+            /*
             if (this._isDeviceRefed(options.device)) {
                 return reject(new Error(this._logger.error(`Device "${options.device}" is already assigned with session "${this._session}"`)));
             }
+            */
 
             ServiceDevices.refDevice(this._session, options, {
                 onData: this._onDeviceData.bind(this, options.device),
@@ -83,9 +85,11 @@ export class ControllerSession {
 
     public close(device: string): Promise<void> {
         return new Promise((resolve, reject) => {
+            /*
             if (!this._isDeviceRefed(device)) {
                 return reject(new Error(this._logger.error(`Device "${device}" is not assigned with session "${this._session}"`)));
             }
+            */
 
             ServiceDevices.unrefDevice(this._session, device).catch((error: Error) => {
                 this._logger.error(`Fail unref normally device "${device}" from session "${this._session}" due to error: ${error.message}`);
@@ -121,9 +125,11 @@ export class ControllerSession {
         return new Promise((resolve, reject) => {
             Promise.all(
                 options.map((option: IOptions) => {
+                    /*
                     if (!this._isDeviceRefed(option.device)) {
                         return reject(new Error(this._logger.error(`Device "${option.device}" is not being spied on`)));
                     }
+                    */
 
                     return ServiceDevices.unrefDevice(PSEUDO_SESSION, option.device).then(() => {
                         this._removeDevice(option.device);

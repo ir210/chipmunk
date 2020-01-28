@@ -64,12 +64,12 @@ export class SidebarVerticalDeviceDialogComponent implements OnInit, OnDestroy, 
     }
 
     ngOnDestroy() {
-        clearTimeout(this._interval);
-        Service.stopSpy(this._options);
-        Object.keys(this._subscriptions).forEach((key: string) => {
-            this._subscriptions[key].unsubscribe();
-        });
-        this._destroyed = true;
+      clearTimeout(this._interval);
+      Service.stopSpy(this._options);
+      Object.keys(this._subscriptions).forEach((key: string) => {
+        this._subscriptions[key].unsubscribe();
+      });
+      this._destroyed = true;
     }
 
     public onTick(): { tick: Observable<boolean> } {

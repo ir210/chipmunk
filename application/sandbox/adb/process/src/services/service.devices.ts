@@ -62,7 +62,7 @@ class ServiceDevices {
                 return reject(new Error(this._logger.error(`Fail to get device handler because options is not an object`)));
             }
             if (typeof options.device !== 'string' || options.device.trim() === '') {
-                return reject(new Error(this._logger.error(`Fail to get device handler because "path" is incorrect: ${options.device}`)));
+                return reject(new Error(this._logger.error(`Fail to get device handler because "device" is incorrect: ${options.device}`)));
             }
 
             let controller: ControllerAdbDevice | undefined = this._controllers.get(options.device);
@@ -165,6 +165,7 @@ class ServiceDevices {
             if (stored === undefined) {
                 return resolve();
             }
+
             stored.delete(session);
             if (stored.size === 0) {
                 this._listeners.delete(device);
