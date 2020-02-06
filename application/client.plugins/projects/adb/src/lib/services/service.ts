@@ -67,7 +67,7 @@ export class Service extends Toolkit.APluginService {
   }
 
   public incomeMessage() {
-    this._subscriptions.incomeIPCHostMessage = this.api.getIPC().subscribeToHost((message: any) => {
+    this._subscriptions.incomeIPCHostMessage = this.api.getIPC().subscribe((message: any) => {
       if (typeof message !== 'object' && message === null) {
         return;
       }
@@ -126,7 +126,7 @@ export class Service extends Toolkit.APluginService {
   }
 
   public connect(options: IOptions): Promise<void> {
-    return this.api.getIPC().requestToHost({
+    return this.api.getIPC().request({
       stream: this.session,
       command: EHostCommands.open,
       options: options,
@@ -155,7 +155,7 @@ export class Service extends Toolkit.APluginService {
   }
 
   public disconnect(device: string): Promise<any> {
-    return this.api.getIPC().requestToHost({
+    return this.api.getIPC().request({
       stream: this.session,
       command: EHostCommands.close,
       device: device,
@@ -168,7 +168,7 @@ export class Service extends Toolkit.APluginService {
   }
 
   public requestDevices(): Promise<any> {
-    return this.api.getIPC().requestToHost({
+    return this.api.getIPC().request({
       stream: this.session,
       command: EHostCommands.list,
     }, this.session).catch((error: Error) => {
@@ -177,7 +177,7 @@ export class Service extends Toolkit.APluginService {
   }
 
   public startSpy(options: IOptions[]): Promise<any> {
-    return this.api.getIPC().requestToHost({
+    return this.api.getIPC().request({
       stream: this.session,
       command: EHostCommands.spyStart,
       options: options,
@@ -187,7 +187,7 @@ export class Service extends Toolkit.APluginService {
   }
 
   public stopSpy(options: IOptions[]): Promise<any> {
-    return this.api.getIPC().requestToHost({
+    return this.api.getIPC().request({
       stream: this.session,
       command: EHostCommands.spyStop,
       options: options,
@@ -197,7 +197,7 @@ export class Service extends Toolkit.APluginService {
   }
 
   public sendMessage(message: string, device: string): Promise<any> {
-    return this.api.getIPC().requestToHost({
+    return this.api.getIPC().request({
       stream: this.session,
       command: EHostCommands.write,
       cmd: message,
