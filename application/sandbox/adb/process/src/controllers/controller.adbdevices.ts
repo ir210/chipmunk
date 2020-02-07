@@ -160,4 +160,3 @@ export class ControllerAdbDevice extends EventEmitter {
         }
     }
 }
-}
