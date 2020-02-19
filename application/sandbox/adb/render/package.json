@@ -1,0 +1,21 @@
+{
+  "name": "adb",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^8.2.12",
+    "@angular/core": "^8.2.12"
+  },
+  "main": "bundles/adb.umd.js",
+  "module": "fesm5/adb.js",
+  "es2015": "fesm2015/adb.js",
+  "esm5": "esm5/adb.js",
+  "esm2015": "esm2015/adb.js",
+  "fesm5": "fesm5/adb.js",
+  "fesm2015": "fesm2015/adb.js",
+  "typings": "adb.d.ts",
+  "metadata": "adb.metadata.json",
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

@@ -1,0 +1,73 @@
+import { OnDestroy, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import * as Toolkit from 'chipmunk.client.toolkit';
+import { InputStandardComponent } from 'chipmunk-client-primitive';
+import { DomSanitizer } from '@angular/platform-browser';
+import { IDeviceInfo, IDeviceState } from '../../common/interface.deviceinfo';
+import { IOptions } from '../../common/interface.options';
+interface IConnected {
+    device: IDeviceInfo;
+    options: IOptions;
+    state: IDeviceState;
+}
+interface IDeviceListItem {
+    value: string;
+    caption: string;
+}
+export declare class SidebarVerticalComponent implements AfterViewInit, OnDestroy {
+    private _cdRef;
+    private _sanitizer;
+    _inputCom: InputStandardComponent;
+    api: Toolkit.IAPI;
+    session: string;
+    sessions: Toolkit.ControllerSessionsEvents;
+    private _subscriptions;
+    private _logger;
+    private _destroyed;
+    private _chosenDevice;
+    private _deviceOptions;
+    private _options;
+    private _optionsCom;
+    _ng_devices: IDeviceInfo[];
+    _ng_connected: IConnected[];
+    _ng_selected: IDeviceInfo | undefined;
+    _ng_busy: boolean;
+    _ng_error: string | undefined;
+    _ng_options: boolean;
+    _ng_msg: string;
+    _ng_deviceList: IDeviceListItem[];
+    _ng_defaultDevice: string | undefined;
+    constructor(_cdRef: ChangeDetectorRef, _sanitizer: DomSanitizer);
+    ngOnDestroy(): void;
+    ngAfterViewInit(): void;
+    _ng_onDeviceSelect(device: IDeviceInfo): boolean;
+    _ng_canBeConnected(): boolean;
+    _ng_onOptions(): void;
+    _ng_onConnect(): void;
+    _ng_onDisconnectDevice(device: IDeviceInfo): void;
+    _ng_onReloadDeviceList(): void;
+    private _onIncomeMessage;
+    private _onIncomeEvent;
+    private _saveState;
+    private _loadState;
+    private _requestDeviceList;
+    private _error;
+    private _forceUpdate;
+    private _hostEvents_onState;
+    private _hostEvents_onDisconnected;
+    private _hostEvents_onError;
+    _ng_sendMessage(message: string, event?: KeyboardEvent): void;
+    private _addDropdownElement;
+    private _removeDropdownElement;
+    private _setDropdownDefault;
+    private _saveDropdownSession;
+    private _removeDropdownSession;
+    private _restoreDropdownSession;
+    _ng_changeDropdownSelect(value: string): void;
+    private _loadSession;
+    private _createOptions;
+    private _startSpy;
+    private _closePopup;
+    private _filterDevices;
+    _ng_connectDialog(recent: boolean): void;
+}
+export {};
