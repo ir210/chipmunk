@@ -9,7 +9,6 @@
 // Dissemination of this information or reproduction of this material
 // is strictly forbidden unless prior written permission is obtained
 // from ESR Labs.
-const addon = require('../native');
 import { log } from "./logging";
 import { AsyncResult, ITicks, INeonTransferChunk, INeonNotification, IChunk } from "./progress";
 import { NativeEventEmitter, RustAdbIndexerChannel, EventEmitter } from "./emitter";
